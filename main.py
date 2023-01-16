@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import requests
+import csv
 
 mainapp = Tk()
 currency = ["eur","usd","jpy"] 
@@ -35,11 +36,19 @@ def convert():
 
     response = requests.request("GET", url, headers=headers, data = payload)
 
-    status_code = response.status_code
+    #status_code = response.status_code
     result = response.text
     last_result = extract_result(result)
     print(last_result)
     LabelResult.configure(text=last_result)
+    
+    with open('history.csv', 'w', newline='') as csvfile:
+        fieldnames = ['first_currency', 'second_currency', 'amount', 'change']
+
+        thewriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        thewriter.writeheader()
+        thewriter.writerow({'first_currency' : first_currency, 'second_currency' : second_currency, 'amount' : amount, 'change' : last_result})
 
 
 
