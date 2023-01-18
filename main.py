@@ -38,11 +38,12 @@ def convert():
 
     #status_code = response.status_code
     result = response.text
+    print(result)
     last_result = extract_result(result)
     print(last_result)
     LabelResult.configure(text=last_result)
     
-    with open('history.csv', 'w', newline='') as csvfile:
+    with open('history.csv', 'a', newline='') as csvfile:
         fieldnames = ['first_currency', 'second_currency', 'amount', 'change']
 
         thewriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
